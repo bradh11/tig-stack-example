@@ -1,0 +1,26 @@
+
+telemetry ietf subscription 101
+ encoding encode-kvgpb
+ filter xpath /interfaces/interface[name="GigabitEthernet1"]/statistics
+ source-address {{device_source_ip}}
+ stream yang-push
+ update-policy periodic 500
+ receiver ip address {{telegraf_ip}} 57000 protocol grpc-tcp
+
+telemetry ietf subscription 102
+ encoding encode-kvgpb
+ filter xpath /process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds
+ source-address {{device_source_ip}}
+ stream yang-push
+ update-policy periodic 2000
+ receiver ip address {{telegraf_ip}} 57000 protocol grpc-tcp
+
+
+telemetry ietf subscription 103
+  encoding encode-kvgpb
+  filter xpath /memory-ios-xe-oper:memory-statistics/memory-statistic
+  stream yang-push
+  source-address {{device_source_ip}}
+  update-policy periodic 6000
+  receiver ip address {{telegraf_ip}} 57000 protocol grpc-tcp
+

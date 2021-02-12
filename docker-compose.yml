@@ -1,0 +1,65 @@
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - monitoring
+      - backend
+    volumes:
+      - grafana-volume:/monitoring
+      - grafana-volume:/var/lib/grafana
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    restart: always
+    ports:
+      - 8086:8086
+    networks:
+      - backend
+    volumes:
+      - influxdb-volume:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=${INFLUXDB_DB}
+      - INFLUXDB_USER=${INFLUXDB_USER}
+      - INFLUXDB_ADMIN_ENABLED=true
+
+      - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER}
+      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_ADMIN_PASSWORD}
+  telegraf:
+    build: 
+      context: .
+      dockerfile: telegraf/Dockerfile
+    container_name: telegraf
+    restart: always
+    ports:
+      - 57000:57000
+      - 25826:25826/udp
+    networks:
+      - backend
+      - monitoring
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:Z
+      - ./collectd:/etc/telegraf/collectd:Z
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+networks:
+  monitoring:
+    driver: bridge
+  backend:
+    driver: overlay
+volumes:
+  grafana-volume:
+    external: true
+  influxdb-volume:
+    external: true
