@@ -40,12 +40,13 @@ This repository is an example Telegraf, InfluxDB, and Grafana (TIG) stack which 
   https://github.com/jeremycohoe/cisco-ios-xe-mdt
 - reference: [container TIG stack](https://dev.to/project42/install-grafana-influxdb-telegraf-using-docker-compose-56e9)
 
-### Cisco Expressway uses collectd
-
-Telegraf config file is set to support collectd, just point Expressway to your TIG stack based on reference below
-
-- reference: [Expressway REST API](https://www.cisco.com/c/en/us/td/docs/voice_ip_comm/expressway/admin_guide/exwy_b_cisco-expressway-rest-api-summary/exwy_b_cisco-expressway-rest-api-summary_chapter_01.html)
-
 ### Troubleshooting:
 
 > `docker-compose logs -f`
+
+## Cisco Expressway uses collectd
+
+Telegraf config file is set to support collectd, just point Expressway to your TIG stack based on reference below
+
+- reference: ![Expressway screenshot 1](/media/enable_cdr-expressway_1.png)
+- reference: ![Expressway metrics](/media/expressway-metrics.png)
