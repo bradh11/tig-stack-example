@@ -44,7 +44,7 @@ This repository is an example Telegraf, InfluxDB, and Grafana (TIG) stack which 
 
 > `docker-compose logs -f`
 
-## Cisco Expressway uses collectd
+## Cisco Expressway metrics using collectd
 
 Telegraf config file is set to support collectd, just point Expressway to your TIG stack based on reference below
 
