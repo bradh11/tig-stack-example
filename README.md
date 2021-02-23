@@ -50,3 +50,32 @@ Telegraf config file is set to support collectd, just point Expressway to your T
 
 - reference: ![Expressway screenshot 1](/media/enable_cdr-expressway_1.png)
 - reference: ![Expressway metrics](/media/expressway-metrics.png)
+
+### Telegraf config for CollectD
+
+```
+
+############## Collectd input from Expressway ############
+[[inputs.socket_listener]]
+service_address = "udp://:25826"
+
+## Data format to consume.
+## Each data format has its own unique set of configuration options, read
+## more about them here:
+##   https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+data_format = "collectd"
+
+## Authentication file for cryptographic security levels
+#collectd_auth_file = "/etc/telegraf/collectd/auth_file"
+## One of none (default), sign, or encrypt
+collectd_security_level = "none"
+## Path of to TypesDB specifications
+#collectd_typesdb = ["/etc/telegraf/collectd/types.db"]
+
+## Multi-value plugins can be handled two ways.
+## "split" will parse and store the multi-value plugin data into separate measurements
+## "join" will parse and store the multi-value plugin as a single multi-value measurement.
+## "split" is the default behavior for backward compatability with previous versions of influxdb.
+collectd_parse_multivalue = "join"
+
+```
